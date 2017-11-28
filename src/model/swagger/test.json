@@ -1,0 +1,1148 @@
+{
+    "apiVersion": "1.0",
+    "apis": [
+        {
+            "rest": {
+                "apiVersion": "1.0",
+                "apis": [
+                    {
+                        "description": "appSearch",
+                        "operations": [
+                            {
+                                "method": "POST",
+                                "summary": "app search",
+                                "notes": "app search",
+                                "nickname": "appSearch",
+                                "produces": [
+                                    "application/json;charset=utf-8"
+                                ],
+                                "consumes": [
+                                    "application/json;charset=utf-8"
+                                ],
+                                "parameters": [
+                                    {
+                                        "allowMultiple": false,
+                                        "defaultValue": "",
+                                        "description": "entry",
+                                        "name": "body",
+                                        "paramType": "body",
+                                        "type": "SearchEntry",
+                                        "required": false
+                                    }
+                                ],
+                                "responseMessages": [
+                                    {
+                                        "code": 200,
+                                        "message": null,
+                                        "responseModel": "CommonModel«SearchListResult«CustomerResult»»"
+                                    },
+                                    {
+                                        "code": 201,
+                                        "message": "Created"
+                                    },
+                                    {
+                                        "code": 401,
+                                        "message": "Unauthorized"
+                                    },
+                                    {
+                                        "code": 403,
+                                        "message": "Forbidden"
+                                    },
+                                    {
+                                        "code": 404,
+                                        "message": "Not Found"
+                                    }
+                                ],
+                                "deprecated": "false",
+                                "type": "CommonModel«SearchListResult«CustomerResult»»"
+                            }
+                        ],
+                        "path": "/rest/v1/search/app"
+                    },
+                    {
+                        "description": "queryByName",
+                        "operations": [
+                            {
+                                "method": "GET",
+                                "summary": "查询客户信息，包括公海客户、个人客户以及启信宝客户（仅显示5条，新增客户时查重用）",
+                                "notes": "search all customer by name",
+                                "nickname": "queryByName",
+                                "produces": [
+                                    "application/json;charset=utf-8"
+                                ],
+                                "consumes": [
+                                    "application/json"
+                                ],
+                                "parameters": [
+                                    {
+                                        "allowMultiple": false,
+                                        "defaultValue": "",
+                                        "description": "keyword",
+                                        "name": "keyword",
+                                        "paramType": "query",
+                                        "type": "string",
+                                        "required": false
+                                    },
+                                    {
+                                        "allowMultiple": false,
+                                        "defaultValue": "all",
+                                        "description": "searchRange",
+                                        "name": "searchRange",
+                                        "paramType": "query",
+                                        "type": "string",
+                                        "required": false
+                                    }
+                                ],
+                                "responseMessages": [
+                                    {
+                                        "code": 200,
+                                        "message": "OK",
+                                        "responseModel": "CommonModel«List«QueryCustomerResult»»"
+                                    },
+                                    {
+                                        "code": 401,
+                                        "message": "Unauthorized"
+                                    },
+                                    {
+                                        "code": 403,
+                                        "message": "Forbidden"
+                                    },
+                                    {
+                                        "code": 404,
+                                        "message": "Not Found"
+                                    }
+                                ],
+                                "deprecated": "false",
+                                "type": "CommonModel«List«QueryCustomerResult»»"
+                            }
+                        ],
+                        "path": "/rest/v1/search/queryByName"
+                    },
+                    {
+                        "description": "webSearch",
+                        "operations": [
+                            {
+                                "method": "POST",
+                                "summary": "web search",
+                                "notes": "web search",
+                                "nickname": "webSearch",
+                                "produces": [
+                                    "application/json;charset=utf-8"
+                                ],
+                                "consumes": [
+                                    "application/json;charset=utf-8"
+                                ],
+                                "parameters": [
+                                    {
+                                        "allowMultiple": false,
+                                        "defaultValue": "",
+                                        "description": "entry",
+                                        "name": "body",
+                                        "paramType": "body",
+                                        "type": "SearchEntry",
+                                        "required": false
+                                    }
+                                ],
+                                "responseMessages": [
+                                    {
+                                        "code": 200,
+                                        "message": null,
+                                        "responseModel": "CommonModel«SearchListResult«GetLibraryCustomerResult»»"
+                                    },
+                                    {
+                                        "code": 201,
+                                        "message": "Created"
+                                    },
+                                    {
+                                        "code": 401,
+                                        "message": "Unauthorized"
+                                    },
+                                    {
+                                        "code": 403,
+                                        "message": "Forbidden"
+                                    },
+                                    {
+                                        "code": 404,
+                                        "message": "Not Found"
+                                    }
+                                ],
+                                "deprecated": "false",
+                                "type": "CommonModel«SearchListResult«GetLibraryCustomerResult»»"
+                            }
+                        ],
+                        "path": "/rest/v1/search/web"
+                    }
+                ],
+                "basePath": "/customer",
+                "consumes": [
+                    "application/json;charset=utf-8",
+                    "application/json"
+                ],
+                "models": {
+                    "CountInfo": {
+                        "description": "",
+                        "id": "CountInfo",
+                        "properties": {
+                            "count": {
+                                "required": false,
+                                "format": "int64",
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    "FilterQueryVO": {
+                        "description": "",
+                        "id": "FilterQueryVO",
+                        "properties": {
+                            "key": {
+                                "description": "关键字",
+                                "required": true,
+                                "type": "string"
+                            },
+                            "value": {
+                                "description": "比较值",
+                                "required": false,
+                                "type": "object"
+                            },
+                            "name": {
+                                "description": "字段名称",
+                                "required": true,
+                                "type": "string"
+                            },
+                            "operator": {
+                                "enum": [
+                                    "equal",
+                                    "greater",
+                                    "greaterEqual",
+                                    "less",
+                                    "lessEqual",
+                                    "contain",
+                                    "isNull",
+                                    "isNotNull",
+                                    "in",
+                                    "between"
+                                ],
+                                "description": "操作符",
+                                "required": true,
+                                "type": "string"
+                            },
+                            "remark": {
+                                "description": "备注：目前主要是选人组建使用，用来保存选中用户姓名",
+                                "required": false,
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "Position": {
+                        "description": "",
+                        "id": "Position",
+                        "properties": {
+                            "date": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "position": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "positionDetail": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "noPosition": {
+                                "required": false,
+                                "type": "boolean"
+                            },
+                            "positionDate": {
+                                "required": false,
+                                "format": "date-time",
+                                "type": "string"
+                            },
+                            "clockInId": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "longitude": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "latitude": {
+                                "required": false,
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "FilterQuery": {
+                        "description": "",
+                        "id": "FilterQuery",
+                        "properties": {
+                            "key": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "value": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "remark": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "name": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "operator": {
+                                "enum": [
+                                    "equal",
+                                    "greater",
+                                    "greaterEqual",
+                                    "less",
+                                    "lessEqual",
+                                    "contain",
+                                    "isNull",
+                                    "isNotNull",
+                                    "in",
+                                    "between"
+                                ],
+                                "required": false,
+                                "type": "string"
+                            },
+                            "valueType": {
+                                "required": false,
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "SearchListResult«CustomerResult»": {
+                        "description": "",
+                        "id": "SearchListResult«CustomerResult»",
+                        "properties": {
+                            "list": {
+                                "items": {
+                                    "type": "CustomerResult"
+                                },
+                                "required": false,
+                                "type": "array"
+                            },
+                            "countInfo": {
+                                "required": false,
+                                "type": "CountInfo"
+                            },
+                            "allCount": {
+                                "required": false,
+                                "format": "int32",
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    "ColumnFilter": {
+                        "description": "",
+                        "id": "ColumnFilter",
+                        "properties": {
+                            "customerName": {
+                                "description": "客户名称",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "customerUserName": {
+                                "description": "负责人姓名",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "customerUserOrg": {
+                                "description": "负责人部门",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "provincecitydistrict": {
+                                "description": "省市区",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "customerAddress": {
+                                "description": "客户地址",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "website": {
+                                "description": "网址",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "contactInfo": {
+                                "description": "联系人",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "level": {
+                                "description": "等级",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "status": {
+                                "description": "状态",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "remarks": {
+                                "description": "备注",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "createDate": {
+                                "description": "创建日期",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "ext": {
+                                "description": "自定义",
+                                "required": false,
+                                "type": "object"
+                            },
+                            "libraryName": {
+                                "description": "公海名称",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "aliveTime": {
+                                "description": "保有时间",
+                                "required": false,
+                                "format": "int32",
+                                "type": "integer"
+                            },
+                            "lateContactTime": {
+                                "description": "最后跟进时间",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "creatorName": {
+                                "description": "创建者姓名",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "flowStatus": {
+                                "description": "报备状态",
+                                "required": false,
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "CustomerResult": {
+                        "description": "",
+                        "id": "CustomerResult",
+                        "properties": {
+                            "id": {
+                                "description": "客户ID",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "customerName": {
+                                "description": "客户名称",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "customerAddress": {
+                                "description": "客户地址",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "customerUser": {
+                                "description": "负责人信息",
+                                "required": false,
+                                "type": "User"
+                            },
+                            "remarks": {
+                                "description": "备注信息",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "position": {
+                                "description": "位置信息",
+                                "required": false,
+                                "type": "Position"
+                            },
+                            "province": {
+                                "description": "省份",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "city": {
+                                "description": "市",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "district": {
+                                "description": "区",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "website": {
+                                "description": "网址",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "level": {
+                                "description": "客户等级",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "status": {
+                                "description": "客户状态",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "stautsContent": {
+                                "description": "客户状态内容详情",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "creator": {
+                                "description": "创建人",
+                                "required": false,
+                                "type": "User"
+                            },
+                            "smartCustomerID": {
+                                "description": "启信宝对应企业ID",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "orgId": {
+                                "description": "部门ID",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "eid": {
+                                "description": "工作圈ID",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "longOrgId": {
+                                "description": "长编码",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "extDatas": {
+                                "description": "拓展数据",
+                                "required": false,
+                                "type": "object"
+                            },
+                            "classTypeID": {
+                                "description": "拓展单据ID",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "libID": {
+                                "description": "客户公海ID",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "libStatus": {
+                                "description": "客户公海状态",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "doleTime": {
+                                "description": "客户公海状态",
+                                "required": false,
+                                "format": "date-time",
+                                "type": "string"
+                            },
+                            "aliveTime": {
+                                "description": "剩余保有时间",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "libraryName": {
+                                "description": "公海池名称",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "sourceType": {
+                                "description": "数据来源类型",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "k3CloudId": {
+                                "description": "k3Cloud系统中客户的记录的唯一性标识",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "flowStatus": {
+                                "description": "客户审批状态",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "provincecitydistrict": {
+                                "description": "省市区组合",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "followStatus": {
+                                "required": false,
+                                "type": "boolean"
+                            },
+                            "successStatus": {
+                                "required": false,
+                                "type": "boolean"
+                            },
+                            "levelContent": {
+                                "required": false,
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "CommonModel«SearchListResult«CustomerResult»»": {
+                        "description": "",
+                        "id": "CommonModel«SearchListResult«CustomerResult»»",
+                        "properties": {
+                            "success": {
+                                "required": false,
+                                "type": "boolean"
+                            },
+                            "code": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "msg": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "data": {
+                                "required": false,
+                                "type": "SearchListResult«CustomerResult»"
+                            }
+                        }
+                    },
+                    "SearchEntry": {
+                        "description": "",
+                        "id": "SearchEntry",
+                        "properties": {
+                            "filterType": {
+                                "enum": [
+                                    "all",
+                                    "my",
+                                    "part",
+                                    "follow"
+                                ],
+                                "required": false,
+                                "type": "string"
+                            },
+                            "keyword": {
+                                "description": "keyword",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "filterSchemeId": {
+                                "description": "过滤 filterScheme id",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "start": {
+                                "description": "start",
+                                "required": false,
+                                "format": "int32",
+                                "type": "integer"
+                            },
+                            "limit": {
+                                "description": "limit",
+                                "required": false,
+                                "format": "int32",
+                                "type": "integer"
+                            },
+                            "query": {
+                                "description": "高级查询",
+                                "items": {
+                                    "type": "FilterQueryVO"
+                                },
+                                "required": false,
+                                "type": "array"
+                            },
+                            "sortBy": {
+                                "description": "排序字段",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "columnFilter": {
+                                "description": "列筛选",
+                                "required": false,
+                                "type": "ColumnFilter"
+                            },
+                            "queryList": {
+                                "description": "内部使用,前端请无视之",
+                                "items": {
+                                    "type": "FilterQuery"
+                                },
+                                "required": false,
+                                "type": "array"
+                            },
+                            "loginUser": {
+                                "description": "内部使用,前端请无视之",
+                                "required": false,
+                                "type": "User"
+                            }
+                        }
+                    },
+                    "GetLibraryCustomerResult": {
+                        "description": "",
+                        "id": "GetLibraryCustomerResult",
+                        "properties": {
+                            "id": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "tenantId": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "customerName": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "customerAddress": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "customerUser": {
+                                "required": false,
+                                "type": "User"
+                            },
+                            "remarks": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "praises": {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "required": false,
+                                "type": "array"
+                            },
+                            "comment": {
+                                "required": false,
+                                "type": "AtomicInteger"
+                            },
+                            "createDate": {
+                                "required": false,
+                                "format": "date-time",
+                                "type": "string"
+                            },
+                            "lastUpdate": {
+                                "required": false,
+                                "format": "date-time",
+                                "type": "string"
+                            },
+                            "lateVisitDate": {
+                                "required": false,
+                                "format": "date-time",
+                                "type": "string"
+                            },
+                            "position": {
+                                "required": false,
+                                "type": "Position"
+                            },
+                            "province": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "city": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "district": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "website": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "level": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "status": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "stautsContent": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "creator": {
+                                "required": false,
+                                "type": "User"
+                            },
+                            "smartCustomerID": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "orgId": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "eid": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "longOrgId": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "extDatas": {
+                                "required": false,
+                                "type": "object"
+                            },
+                            "classTypeID": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "flowid": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "doleTime": {
+                                "required": false,
+                                "format": "date-time",
+                                "type": "string"
+                            },
+                            "libID": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "libStatus": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "followStatus": {
+                                "required": false,
+                                "type": "boolean"
+                            },
+                            "successStatus": {
+                                "required": false,
+                                "type": "boolean"
+                            },
+                            "lateSuccessTime": {
+                                "required": false,
+                                "format": "date-time",
+                                "type": "string"
+                            },
+                            "shareFolderId": {
+                                "required": false,
+                                "format": "int64",
+                                "type": "integer"
+                            },
+                            "overTime": {
+                                "required": false,
+                                "format": "date-time",
+                                "type": "string"
+                            },
+                            "allocateTime": {
+                                "required": false,
+                                "format": "date-time",
+                                "type": "string"
+                            },
+                            "sourceType": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "k3CloudId": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "lateContactTime": {
+                                "required": false,
+                                "format": "date-time",
+                                "type": "string"
+                            },
+                            "lateVisitId": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "visitCount": {
+                                "required": false,
+                                "format": "int64",
+                                "type": "integer"
+                            },
+                            "statusUpdateDate": {
+                                "required": false,
+                                "format": "date-time",
+                                "type": "string"
+                            },
+                            "synDate": {
+                                "required": false,
+                                "format": "date-time",
+                                "type": "string"
+                            },
+                            "flowStatus": {
+                                "description": "客户审批状态",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "contactInfo": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "provincecitydistrict": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "customerUserName": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "customerUserPhone": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "customerDepartment": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "createUserName": {
+                                "description": "创建人",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "aliveTime": {
+                                "description": "剩余保有时间",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "libraryName": {
+                                "description": "公海池名称",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "customerUserOrg": {
+                                "description": "责任人部门",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "visitContent": {
+                                "description": "最后跟进记录的内容 ",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "visitPhoto": {
+                                "description": "导出用——跟进照片",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "visitPhotos": {
+                                "description": "列表用——跟进照片",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "required": false,
+                                "type": "array"
+                            },
+                            "draft": {
+                                "required": false,
+                                "type": "boolean"
+                            },
+                            "delete": {
+                                "required": false,
+                                "type": "boolean"
+                            },
+                            "levelContent": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "infoLevelContent": {
+                                "required": false,
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "CommonModel«SearchListResult«GetLibraryCustomerResult»»": {
+                        "description": "",
+                        "id": "CommonModel«SearchListResult«GetLibraryCustomerResult»»",
+                        "properties": {
+                            "success": {
+                                "required": false,
+                                "type": "boolean"
+                            },
+                            "code": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "msg": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "data": {
+                                "required": false,
+                                "type": "SearchListResult«GetLibraryCustomerResult»"
+                            }
+                        }
+                    },
+                    "AtomicInteger": {
+                        "description": "",
+                        "id": "AtomicInteger",
+                        "properties": {
+                            "andDecrement": {
+                                "required": false,
+                                "format": "int32",
+                                "type": "integer"
+                            },
+                            "andIncrement": {
+                                "required": false,
+                                "format": "int32",
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    "SearchListResult«GetLibraryCustomerResult»": {
+                        "description": "",
+                        "id": "SearchListResult«GetLibraryCustomerResult»",
+                        "properties": {
+                            "list": {
+                                "items": {
+                                    "type": "GetLibraryCustomerResult"
+                                },
+                                "required": false,
+                                "type": "array"
+                            },
+                            "countInfo": {
+                                "required": false,
+                                "type": "CountInfo"
+                            },
+                            "allCount": {
+                                "required": false,
+                                "format": "int32",
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    "CommonModel«List«QueryCustomerResult»»": {
+                        "description": "",
+                        "id": "CommonModel«List«QueryCustomerResult»»",
+                        "properties": {
+                            "success": {
+                                "required": false,
+                                "type": "boolean"
+                            },
+                            "code": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "msg": {
+                                "required": false,
+                                "type": "string"
+                            },
+                            "data": {
+                                "items": {
+                                    "type": "QueryCustomerResult"
+                                },
+                                "required": false,
+                                "type": "array"
+                            }
+                        }
+                    },
+                    "QueryCustomerResult": {
+                        "description": "",
+                        "id": "QueryCustomerResult",
+                        "properties": {
+                            "customerId": {
+                                "description": "客户id",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "customerName": {
+                                "description": "客户名称",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "existStatus": {
+                                "description": "存在状态，self（个人客户）,nochargeuser（无责任人客户）,qixinbao（启信宝客户）",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "qixinbaoId": {
+                                "description": "启信宝客户id",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "libId": {
+                                "description": "客户公海id",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "libName": {
+                                "description": "客户公海名称",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "customerUser": {
+                                "description": "责任人",
+                                "required": false,
+                                "type": "UserResult"
+                            },
+                            "resultMsg": {
+                                "description": "客户查询结果信息",
+                                "required": false,
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "UserResult": {
+                        "description": "",
+                        "id": "UserResult",
+                        "properties": {
+                            "eid": {
+                                "description": "工作圈ID",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "oid": {
+                                "description": "oid",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "userName": {
+                                "description": "用户名称",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "orgId": {
+                                "description": "orgId",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "department": {
+                                "description": "部门名称",
+                                "required": false,
+                                "type": "string"
+                            },
+                            "photoUrl": {
+                                "description": "头像地址",
+                                "required": false,
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "resourcePath": "/rest/v1/search",
+                "swaggerVersion": "1.2"
+            },
+            "err": null,
+            "description": "客户搜索接口",
+            "path": "/default/restsearchv1",
+            "position": 0
+        }
+    ],
+    "authorizations": {},
+    "info": {
+        "contact": "周明强",
+        "description": "权限，用户，组织等信息接口",
+        "license": "",
+        "licenseUrl": "内部信息",
+        "termsOfServiceUrl": "http://192.168.22.144/crmcommon",
+        "title": "crm comom 项目rest 接口"
+    },
+    "swaggerVersion": "1.2"
+}
