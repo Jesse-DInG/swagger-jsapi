@@ -10,6 +10,9 @@
         "watch": "gulp",
         "build": "gulp build"
     },
+    "engines": {
+        "node": ">= 0.9"
+    },
     "dependencies": {
         "@types/node": "^8.0.53",
         "axios": "^0.17.1",

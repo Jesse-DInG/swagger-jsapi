@@ -50,27 +50,27 @@ import {
 <%#outDetailList%>
 export const <%objPath%> = {
     <%#outOperation%>
-        /**
-         * <%summary%>
-         <%#pathProperties%>
-         * @param {<%type%>} <%name%>
-         <%/pathProperties%>
-         <%#queryProperties%>
-         * @param {<%type%>} <%name%>
-         <%/queryProperties%>
-         <%#paramProperty%>
-         * @param {<%type%>} <%type%>
-         <%/paramProperty%>
-        */
-        <%method%>: async (
-            <%#pathProperties%><%name%>,<%/pathProperties%><%#queryProperties%><%name%>,<%/queryProperties%><%#paramProperty%><%name%>,<%/paramProperty%>opt
-        ) => {
-            return await <%method%>(\`<%#wrapUrl%><%#pathProperties%>/<%name%><%/pathProperties%><%/wrapUrl%>\`,
-                <%#paramProperty%>
-                <%name%>,
-                <%/paramProperty%>
-                opt)
-        },
+    /**
+     * <%summary%>
+     <%#pathProperties%>
+        * @param {<%type%>} <%name%>
+        <%/pathProperties%>
+        <%#queryProperties%>
+        * @param {<%type%>} <%name%>
+        <%/queryProperties%>
+        <%#paramProperty%>
+        * @param {<%type%>} <%type%>
+        <%/paramProperty%>
+    */
+    <%method%>: async (
+        <%#pathProperties%><%name%>, <%/pathProperties%><%#queryProperties%><%name%>, <%/queryProperties%><%#paramProperty%><%name%>, <%/paramProperty%>opt
+    ) => {
+        return await <%method%>(\`<%#wrapUrl%><%#pathProperties%>/<%name%><%/pathProperties%><%/wrapUrl%>\`,
+            <%#paramProperty%>
+            <%name%>,
+            <%/paramProperty%>
+            opt)
+    },
     <%/outOperation%>
 }
 <%/outDetailList%>
