@@ -1,24 +1,28 @@
 {
-  "name": "swagger-jsapi",
-  "version": "1.0.0",
-  "description": "jsApi from swagger",
-  "main": "index.js",
-  "bin":"./out/bin.js",
-  "author": "jesse_ding <jesse_ding@kingdee.com>",
-  "license": "MIT",
-  "dependencies": {
-    "@types/node": "^8.0.53",
-    "axios": "^0.17.1",
-    "camelcase": "^4.1.0",
-    "fs-path": "^0.0.23",
-    "gulp": "^3.9.1",
-    "gulp-tsb": "^2.0.5",
-    "lodash": "^4.17.4",
-    "mustache": "^2.3.0",
-    "node-fetch": "^1.7.3",
-    "tslint": "^5.8.0",
-    "tslint-config-standard": "^7.0.0",
-    "typescript": "^2.6.1",
-    "yargs": "^10.0.3"
-  }
+    "name": "swagger-jsapi",
+    "version": "1.0.0",
+    "description": "jsApi from swagger",
+    "main": "index.js",
+    "bin": "./out/bin.js",
+    "author": "jesse_ding <jesse_ding@kingdee.com>",
+    "license": "MIT",
+    "scripts": {
+        "watch": "gulp",
+        "build": "gulp build"
+    },
+    "dependencies": {
+        "@types/node": "^8.0.53",
+        "axios": "^0.17.1",
+        "camelcase": "^4.1.0",
+        "fs-path": "^0.0.23",
+        "gulp": "^3.9.1",
+        "gulp-tsb": "^2.0.5",
+        "lodash": "^4.17.4",
+        "mustache": "^2.3.0",
+        "node-fetch": "^1.7.3",
+        "tslint": "^5.8.0",
+        "tslint-config-standard": "^7.0.0",
+        "typescript": "^2.6.1",
+        "yargs": "^10.0.3"
+    }
 }

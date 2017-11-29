@@ -1,5 +1,5 @@
 export default class OutputModel {
     path: string
-    context: string
+    content: string
     data: any
 }

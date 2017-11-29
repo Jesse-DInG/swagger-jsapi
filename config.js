@@ -9,52 +9,72 @@ module.exports = {
             url: 'http://172.20.176.77:8000/clue/api-docs'
         }
     ],
-    ouputDir: './dist',
+    operations:['get','post'],
+    outputDir: './dist',
+    ajaxModulePath:'../http',
     template: {
         model:
-`
-export default class <%id%> {
+            `
+<%#modelList%>
+export class <%id%> {
     /**
-     * <%description%>
+    * <%description%>
      <%#propertyList%>
-    * @param {<%type%>} <%#required%>*<%/required%><%keyName%>
+    * @param {<%type%>} <%keyName%>
     <%/propertyList%>
     */
-    constructor(
-    <%#propertyList%>
-    <%keyName%><%#defaultValue%>=.<%/defaultValue%>,
-    <%/propertyList%>
-    ){
+    constructor (
+        <%#propertyList%>
+        <%keyName%><%#defaultValue%>=.<%/defaultValue%>,
+        <%/propertyList%>
+    ) {
         <%#propertyList%>
         this.<%keyName%> = <%keyName%>
         <%/propertyList%>
     }
 }
+<%/modelList%>
 `,
         ajax:
-`
+            `
+import { get, post } from '<%#ajaxModulePath%><%/ajaxModulePath%>'
+import {
+    <%#modelList%>
+    <%id%>,
+    <%/modelList%>
+} from './<%apiName%>Model'
+<%#restList%>
+/**
+ * <%description%>
+ */
 <%#outDetailList%>
 export const <%objPath%> = {
     <%#outOperation%>
         /**
          * <%summary%>
+         <%#pathProperties%>
+         * @param {<%type%>} <%name%>
+         <%/pathProperties%>
+         <%#queryProperties%>
+         * @param {<%type%>} <%name%>
+         <%/queryProperties%>
+         <%#paramProperty%>
+         * @param {<%type%>} <%type%>
+         <%/paramProperty%>
         */
         <%method%>: async (
-            <%queryString%>,
-            <%#paramProperty%><%type%>,<%/paramProperty%>
-            opt
+            <%#pathProperties%><%name%>,<%/pathProperties%><%#queryProperties%><%name%>,<%/queryProperties%><%#paramProperty%><%name%>,<%/paramProperty%>opt
         ) => {
-            return await <%method%>(
-                <%queryString%>,
+            return await <%method%>(\`<%#wrapUrl%><%#pathProperties%>/<%name%><%/pathProperties%><%/wrapUrl%>\`,
                 <%#paramProperty%>
-                <%type%>,
+                <%name%>,
                 <%/paramProperty%>
                 opt)
         },
     <%/outOperation%>
 }
 <%/outDetailList%>
-
+<%/restList%>
 `
     }
 }

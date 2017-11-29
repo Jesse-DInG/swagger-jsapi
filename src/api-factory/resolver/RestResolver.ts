@@ -8,11 +8,13 @@ import ApiModelProperty from '../../model/swagger/ApiModelProperty'
 import ApiParameter from '../../model/swagger/ApiParameter'
 import ApiDetail from '../../model/swagger/ApiDetail'
 import * as camelcase from 'camelcase'
+import Api from '../../model/swagger/Api'
+import ClassModel from '../../model/ClassModel'
 
-function fillMap (map: any,path: string) {
+function fillMap (map: any, path: string) {
     const mapList = path.split('/')
     let curObj = map
-    for (let i = 1;i < mapList.length;i++) {
+    for (let i = 1; i < mapList.length; i++) {
         const key = mapList[i]
         if (!curObj[key]) {
             curObj[key] = {}
@@ -22,77 +24,103 @@ function fillMap (map: any,path: string) {
 }
 
 function getObjPath (path) {
-    return path.replace(/\//g,'.')
+    return path.replace(/\//g, '.')
+}
+
+function wrapUrl () {
+    return (text,render) => {
+        let url = this.url + render(text)
+        if (this.queryProperties.length > 0) {
+            url += '?' + this.queryProperties.map((query: ApiParameter) => {
+                return `${query.name}=\${${query.name}}`
+            }).join('&')
+        }
+        return url
+    }
 }
 
 function getOutOperation (operation: ApiOperation): OutOperation {
     const outOperation: OutOperation = JSON.parse(JSON.stringify(operation)) as OutOperation
     outOperation.method = outOperation.method.toLowerCase()
-    const queryProperties: Array<ApiParameter> = []
+    outOperation.pathProperties = []
+    outOperation.queryProperties = []
+    outOperation.requireList = []
+    outOperation.wrapUrl = wrapUrl
     outOperation.parameters.forEach(param => {
-        if (param.paramType === 'body') {
-            outOperation.paramProperty = param
-        } else {
-            queryProperties.push(param)
+        switch (param.paramType) {
+                case 'body':
+                    outOperation.paramProperty = param
+                    break
+                case 'path':
+                    outOperation.pathProperties.push(param)
+                    break
+                default:
+                    outOperation.queryProperties.push(param)
         }
+        outOperation.requireList.push(param.type)
     })
-    if (!outOperation.paramProperty) {
-        outOperation.paramProperty = { type: 'params' } as ApiParameter
-    }
-    if (queryProperties.length > 0) {
-        outOperation.queryString = '{' + queryProperties.map(p => p.name).join(',') + '}'
-    } else {
-        outOperation.queryString = 'query'
-    }
+    // if (!outOperation.paramProperty) {
+    //     outOperation.paramProperty = { type: 'params' } as ApiParameter
+    // }
     return outOperation
 }
 
-function resoveRest (rest: ApiRest,config: ApiFactoryConfig): OutputModel {
-    const output: OutputModel = {
-        path: null,
-        context: '',
-        data: rest
-    } as OutputModel
+function getOutRestModel (api: Api, config: ApiFactoryConfig): OutRestModel {
     const outRestModel: OutRestModel = {
-        name: rest.basePath.substr(1)
+        name: api.rest.basePath.substr(1),
+        requireList: [],
+        ...api
     } as OutRestModel
     const apiMap = {}
-    const list: Array<OutDetailModel> = rest.apis.map(detail => {
+    const modelMap = new Map()
+    const list: Array<OutDetailModel> = api.rest.apis.map(detail => {
         const outModel: OutDetailModel = JSON.parse(JSON.stringify(detail)) as OutDetailModel
-        outModel.objPath = camelcase(getObjPath(outRestModel.name + detail.path))
-        outModel.outOperation = detail.operations.map(operation => {
+        const urlPath = detail.path.replace(/\/\{.*\}/g,'')
+        outModel.objPath = camelcase(getObjPath(outRestModel.name + urlPath))
+        // 去重
+        if (modelMap.has(outModel.objPath)) {
+            return null
+        } else {
+            modelMap.set(outModel.objPath,true)
+        }
+
+        outModel.outOperation = detail.operations.filter(operation => {
+            return config.operations.indexOf(operation.method.toLowerCase()) > -1
+        }).map(operation => {
             const outOperation: OutOperation = getOutOperation(operation)
-            outOperation.method = outOperation.method.toLowerCase()
-            const queryProperties: Array<ApiParameter> = []
-            outOperation.parameters.forEach(param => {
-                if (param.paramType === 'body') {
-                    outOperation.paramProperty = param
-                } else {
-                    queryProperties.push(param)
-                }
-                return param.paramType !== 'body'
-            })
-            fillMap(apiMap,detail.path)
+            outOperation.url = api.rest.basePath + urlPath
+            outRestModel.requireList.push(...outOperation.requireList)
+            fillMap(apiMap, detail.path)
             return outOperation
         })
+
         return outModel
-    })
+    }).filter(item => item)
     outRestModel.outDetailList = list
-    output.context = Mustache.render(config.template.ajax,outRestModel)
-    return output
+    return outRestModel
 }
-interface OutRestModel extends ApiRest {
+
+interface OutRestModel extends Api {
     name: string,
     outDetailList: Array<OutDetailModel>
+    requireList: Array<string>
 }
 interface OutDetailModel extends ApiDetail {
+    debuggerObj: any
     objPath: string
-    outOperation: Array<OutOperation>
+    outOperation: Array<OutOperation>,
 }
 interface OutOperation extends ApiOperation {
-    queryString: string
+    url: string
+    wrapUrl: Function
+    queryProperties: Array<ApiParameter>
+    pathProperties: Array<ApiParameter>
     paramProperty: ApiParameter
+    requireList: Array<string>
 }
 export {
-    resoveRest
+    getOutRestModel,
+    OutRestModel,
+    OutDetailModel,
+    OutOperation
 }

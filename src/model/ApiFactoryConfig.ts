@@ -3,7 +3,9 @@ export default interface ApiFactoryConfig {
         name: string,
         url: string
     }>,
-    ouputDir: string,
+    outputDir: string,
+    ajaxModulePath: string,
+    operations: Array<string>,
     template: {
         model: string,
         ajax: string
